@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en-IN"> <!-- CTO NOTE: Set language to en-IN for Indian client -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Plans - Blooming Bakes | Jetweblabs</title>
+    
+    <!-- 
+      CDO NOTE:
+      Loading the brand fonts: Poppins (friendly, rounded headings) and Inter (clean, readable body text).
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- 
+      CTO NOTE:
+      Loading Tailwind CSS via the official CDN. This gives us access to the
+      full utility-class library in a single file.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 
+      CTO NOTE:
+      We are configuring Tailwind's Just-in-Time (JIT) engine to include
+      the custom "Blooming Bakes" brand palette and fonts. This allows us
+      to use classes like `bg-brandPink`, `font-heading`, etc., directly
+      in the HTML, keeping our markup clean.
+    -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brandPink': '#DB2777',        // Bright Pink (Primary)
+              'brandPinkLight': '#FCE7F3',   // Soft Pink (Backgrounds)
+              'brandPinkHover': '#BE185D',   // Darker Pink (Hover)
+              'brandYellow': '#FDE68A',      // Pastel Yellow
+              'brandOrange': '#FDBA74',      // Pastel Orange
+              'brandText': '#374151',        // Main Body Text
+              'brandDark': '#1f2937',        // Headings / Dark Text
+              'brandSuccess': '#10B981',    // Green Check
+              'brandDanger': '#EF4444',     // Red X
+            },
+            fontFamily: {
+              'heading': ['Poppins', 'sans-serif'],
+              'body': ['Inter', 'sans-serif'],
+            },
+            borderRadius: {
+              'xl': '1rem',      // 16px
+              '2xl': '1.5rem',   // 24px
+              '3xl': '2rem',     // 32px
+            },
+            boxShadow: {
+              'brand': '0 10px 30px -10px rgba(219, 39, 119, 0.3)', // Custom pink shadow
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- 
+      CDO NOTE:
+      A small <style> block for any custom elements Tailwind can't
+      easily create, like the gradient text.
+    -->
+    <style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .gradient-text {
+        background: linear-gradient(to right, #DB2777, #F97316);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      /* Subtle dashed border for decoy plan */
+      .plan-card-decoy {
+        border: 2px dashed #fda4af; /* Lighter pink */
+      }
+      
+      /* Solid border for the hero plan */
+      .plan-card-hero {
+        border: 4px solid #DB2777;
+        transform: scale(1.03);
+      }
+      
+      /* Custom check/cross styles */
+      .feature-check {
+        color: var(--tw-colors-brandSuccess);
+        font-weight: 800;
+        font-size: 1.75rem;
+        line-height: 1;
+      }
+      .feature-cross {
+        color: var(--tw-colors-brandDanger);
+        font-weight: 700;
+        font-size: 1.5rem;
+        line-height: 1;
+      }
+      
+      /* Sticky header for the feature table */
+      .feature-table-header {
+        position: sticky;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        z-index: 10;
+      }
+      
+      /* CTO NOTE:
+        =========================================================
+        START: MOBILE OPTIMIZATION FOR FEATURE TABLE (THE FIX)
+        =========================================================
+        Here is the new CSS to fix the mobile table.
+        Instead of a squished grid, we collapse each feature
+        into a "card" (`.feature-row`). Inside each card, the
+        plans are listed vertically using flexbox (`.feature-value`).
+      */
+      @media (max-width: 1024px) {
+        .feature-table-grid {
+          /* On mobile, collapse into a simpler list */
+          display: block;
+        }
+        .feature-table-header {
+          display: none; /* Hide header on mobile */
+        }
+        .feature-group-header {
+          display: none; /* Hide group headers on mobile */
+        }
+        .feature-row {
+          display: block;
+          border: 1px solid #e5e7eb;
+          border-radius: 1.5rem; /* Softer, cuter corners */
+          margin-bottom: 1rem;
+          padding: 1rem 1.25rem;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+          background: #fff;
+        }
+        .feature-name {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #1f2937;
+          border-bottom: 1px dashed #e5e7eb;
+          padding-bottom: 1rem;
+          margin-bottom: 1rem;
+        }
+        /* This is the new flex container for each plan line */
+        .feature-value {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem 0.25rem;
+          font-size: 0.95rem;
+          border-bottom: 1px solid #f3f4f6; /* Light separator */
+        }
+        .feature-row:last-child {
+            border-bottom: none;
+        }
+        .feature-value:last-child {
+            border-bottom: none; /* No border on the last item in a card */
+        }
+        .feature-value-label {
+          font-weight: 600;
+          color: #6b7280;
+          margin-right: 1rem;
+          flex-shrink: 0;
+        }
+        /* This is the wrapper for the actual value (text, check, cross) */
+        .feature-value-content {
+            font-weight: 600;
+            text-align: right;
+        }
+        /* Specific styling for check/cross */
+        .feature-check .feature-value-content {
+            color: var(--tw-colors-brandSuccess);
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        .feature-cross .feature-value-content {
+            color: var(--tw-colors-brandDanger);
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        /* Text content */
+        .text-gray-600 .feature-value-content {
+            color: #4b5563;
+        }
+        .text-brandPink .feature-value-content {
+            color: var(--tw-colors-brandPink);
+        }
+      }
+      /* =======================================
+         END: MOBILE OPTIMIZATION
+         ======================================= */
+    </style>
+</head>
+
+<body class="font-body bg-white text-brandText">
+
+    <!-- ===== HERO SECTION ===== -->
+    <header class="py-20 lg:py-32 bg-brandPinkLight">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="font-heading text-4xl lg:text-6xl font-extrabold text-brandDark">
+                Let's Build Your <span class="gradient-text">Dream Bakery</span>
+            </h1>
+            <p class="mt-6 text-lg lg:text-xl text-brandText max-w-3xl mx-auto">
+                You've seen the demo. Now let's pick the perfect, budget-friendly plan 
+                to take <span class="font-bold text-brandPink">Blooming Bakes</span> from
+                Facebook DMs to a professional online store.
+            </p>
+        </div>
+    </header>
+
+    <!-- 
+      ===== PRICING TABLE SECTION =====
+      CRO NOTE: This is the core of the strategy.
+      - Starter: Decoy
+      - Business: Step-Up
+      - Pro: HERO (Highlighted)
+      - Growth: Anchor
+    -->
+    <section class="py-20 lg:py-24">
+        <div class="container mx-auto px-6">
+            
+            <!-- Grid Wrapper -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-center">
+
+                <!-- ===== PLAN 1: STARTER (The Decoy) ===== -->
+                <div class="w-full p-8 bg-white rounded-3xl shadow-lg plan-card-decoy">
+                    <h3 class="text-2xl font-bold text-brandDark font-heading">Starter Site</h3>
+                    <p class="mt-2 text-gray-500">Get online, fast.</p>
+                    
+                    <div class="my-6">
+                        <span class="text-5xl font-extrabold text-brandDark">₹1,999</span>
+                        <span class="text-gray-500 font-medium">/ one-time</span>
+                    </div>
+                    
+                    <p class="text-sm text-gray-600 mb-6">
+                        The perfect "digital business card" to look professional and link to your WhatsApp.
+                    </p>
+                    
+                    <a href="https://www.instagram.com/jetweblabs" target="_blank" class="block w-full text-center bg-white text-brandPink border-2 border-brandPink rounded-full px-6 py-3 text-base font-bold shadow-sm hover:bg-brandPinkLight transition-all">
+                        Get Started
+                    </a>
+                    
+                    <ul class="mt-8 space-y-3 text-sm text-brandText">
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> 1-Page "Link-in-Bio" Site</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Links to WhatsApp & Socials</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Basic Contact Form</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Mobile-Friendly Design</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Free Subdomain</li>
+                    </ul>
+                </div>
+
+                <!-- ===== PLAN 2: BUSINESS (The Step-Up) ===== -->
+                <div class="w-full p-8 bg-white rounded-3xl shadow-lg border-2 border-gray-200">
+                    <h3 class="text-2xl font-bold text-brandDark font-heading">Business Site</h3>
+                    <p class="mt-2 text-gray-500">Establish your brand.</p>
+                    
+                    <div class="my-6">
+                        <span class="text-5xl font-extrabold text-brandDark">₹7,999</span>
+                        <span class="text-gray-500 font-medium">/ one-time</span>
+                    </div>
+                    
+                    <p class="text-sm text-gray-600 mb-6">
+                        A full, professional 5-7 page website with your own domain and custom order forms.
+                    </p>
+                    
+                    <a href="https://www.instagram.com/jetweblabs" target="_blank" class="block w-full text-center bg-white text-brandPink border-2 border-brandPink rounded-full px-6 py-3 text-base font-bold shadow-sm hover:bg-brandPinkLight transition-all">
+                        Get Started
+                    </a>
+                    
+                    <ul class="mt-8 space-y-3 text-sm text-brandText">
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> All "Starter" features, plus...</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> 5-7 Page Website</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Custom Domain (e.g., .com)</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Bespoke Order Forms</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Gallery & About Page</li>
+                    </ul>
+                </div>
+
+                <!-- ===== PLAN 3: PRO E-COMMERCE (THE HERO) ===== -->
+                <div class="relative w-full p-8 bg-white rounded-3xl shadow-brand plan-card-hero z-0">
+                    <span class="absolute top-0 right-6 -translate-y-1/2 bg-brandPink text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">Most Popular</span>
+                    
+                    <h3 class="text-3xl font-extrabold text-brandDark font-heading">Pro E-commerce</h3>
+                    <p class="mt-2 text-brandPink font-semibold">The complete demo. Your full store.</p>
+                    
+                    <div class="my-6">
+                        <span class="text-5xl font-extrabold text-brandPink">₹14,999</span>
+                        <span class="text-gray-500 font-medium">/ one-time</span>
+                    </div>
+                    
+                    <p class="text-sm text-gray-600 mb-6">
+                        Everything you saw in the demo. Full shopping cart, online payments, and an admin panel.
+                    </p>
+                    
+                    <a href="https://www.instagram.com/jetweblabs" target="_blank" class="block w-full text-center bg-brandPink text-white rounded-full px-6 py-4 text-lg font-bold shadow-lg hover:bg-brandPinkHover transition-all">
+                        Get Started
+                    </a>
+                    
+                    <ul class="mt-8 space-y-3 text-sm text-brandText">
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> All "Business" features, plus...</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> <span class="font-bold">Full E-commerce Store</span></li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> <span class="font-bold">Shopping Cart & Checkout</span></li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> <span class="font-bold">Payment Gateway Setup</span></li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> <span class="font-bold">Admin Panel for Orders</span></li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Inventory Management</li>
+                    </ul>
+                </div>
+                
+                <!-- ===== PLAN 4: GROWTH (The Anchor) ===== -->
+                <div class="w-full p-8 bg-white rounded-3xl shadow-lg border-2 border-gray-200">
+                    <h3 class="text-2xl font-bold text-brandDark font-heading">Growth Partner</h3>
+                    <p class="mt-2 text-gray-500">We run it all for you.</p>
+                    
+                    <div class="my-6">
+                        <span class="text-4xl font-extrabold text-brandDark">₹24,999</span>
+                        <span class="text-gray-500 font-medium text-sm">one-time</span>
+                        <div class="text-2xl font-bold text-brandDark mt-2">+ ₹4,999 <span class="font-medium text-gray-500 text-sm">/ month</span></div>
+                    </div>
+                    
+                    <p class="text-sm text-gray-600 mb-6">
+                        Everything in "Pro" plus ongoing social media management and SEO to grow your brand.
+                    </p>
+                    
+                    <a href="https://www.instagram.com/jetweblabs" target="_blank" class="block w-full text-center bg-white text-brandPink border-2 border-brandPink rounded-full px-6 py-3 text-base font-bold shadow-sm hover:bg-brandPinkLight transition-all">
+                        Get Started
+                    </a>
+                    
+                    <ul class="mt-8 space-y-3 text-sm text-brandText">
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> All "Pro E-commerce" features</li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> <span class="font-bold">Social Media Management</span></li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> <span class="font-bold">Basic Monthly SEO</span></li>
+                        <li class="flex items-center"><span class="text-brandSuccess mr-2">✓</span> Priority Support</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+      ===== FEATURE COMPARISON TABLE =====
+      CTO NOTE: This is the "upsell engine". 
+      ALL feature values (text, ✓, ✗) are now wrapped in
+      <span class="feature-value-content">...</span>
+      to work with the new mobile-optimized CSS.
+    -->
+    <section class="py-20 lg:py-24 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl lg:text-5xl font-extrabold text-brandDark text-center mb-16">
+                Compare All Features
+            </h2>
+            
+            <div class="max-w-7xl mx-auto feature-table-grid">
+                
+                <!-- Table Header -->
+                <div class="grid grid-cols-5 gap-4 text-center items-end pb-4 border-b-2 border-gray-200 feature-table-header">
+                    <h4 class="text-left font-bold text-xl text-brandDark col-span-1">Feature</h4>
+                    <h4 class="font-bold text-lg text-brandDark">Starter<br><span class="text-sm font-medium text-gray-500">₹1,999</span></h4>
+                    <h4 class="font-bold text-lg text-brandDark">Business<br><span class="text-sm font-medium text-gray-500">₹7,999</span></h4>
+                    <h4 class="font-bold text-xl text-brandPink">Pro E-commerce<br><span class="text-sm font-medium">₹14,999</span></h4>
+                    <h4 class="font-bold text-lg text-brandDark">Growth<br><span class="text-sm font-medium text-gray-500">₹24,999+</span></h4>
+                </div>
+
+                <!-- Group 1: Core Website -->
+                <div class="col-span-5 text-left text-brandPink font-bold text-2xl py-4 mt-8 border-b-2 border-brandPinkLight feature-group-header">
+                  Core Website Features
+                </div>
+
+                <!-- Feature Rows -->
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Number of Pages</span>
+                  <span class="text-gray-600 feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">1</span></span>
+                  <span class="text-gray-600 feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">Up to 7</span></span>
+                  <span class="font-semibold text-brandPink feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">Unlimited</span></span>
+                  <span class="font-semibold text-brandPink feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">Unlimited</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Custom Domain (.com, .in)</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Free Subdomain</span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Professional Custom Design</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Mobile & Tablet Responsive</span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Photo Gallery</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+
+                <!-- Group 2: E-commerce -->
+                <div class="col-span-5 text-left text-brandPink font-bold text-2xl py-4 mt-8 border-b-2 border-brandPinkLight feature-group-header">
+                  E-commerce & Automation
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">WhatsApp Redirect Button</span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Bespoke / Custom Order Form</span>
+                  <span class="text-gray-600 feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">Basic</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name font-bold">Full E-commerce Store</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name font-bold">Shopping Cart & Checkout</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name font-bold">Payment Gateway Setup (UPI, Card)</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Admin Panel for Orders</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Inventory Management</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+
+                <!-- Group 3: Branding & Support -->
+                <div class="col-span-5 text-left text-brandPink font-bold text-2xl py-4 mt-8 border-b-2 border-brandPinkLight feature-group-header">
+                  Branding, Hosting & Support
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Matches Your Brand Colors</span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">1 Year Free Hosting</span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Email Support</span>
+                  <span class="text-gray-600 feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">Basic</span></span>
+                  <span class="text-gray-600 feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">Standard</span></span>
+                  <span class="font-semibold text-brandPink feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">Priority</span></span>
+                  <span class="font-semibold text-brandPink feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">Dedicated</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Training to Use Admin Panel</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+
+                <!-- Group 4: Marketing -->
+                <div class="col-span-5 text-left text-brandPink font-bold text-2xl py-4 mt-8 border-b-2 border-brandPinkLight feature-group-header">
+                  Marketing & Growth
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Instagram Feed on Site</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name">Basic SEO Setup</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✓</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name font-bold">Monthly Social Media (4 posts)</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-200 text-center feature-row">
+                  <span class="text-left text-brandText col-span-1 feature-name font-bold">Monthly SEO & Reporting</span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Starter:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Business:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-cross feature-value"><span class="feature-value-label lg:hidden">Pro:</span><span class="feature-value-content">✗</span></span>
+                  <span class="feature-check feature-value"><span class="feature-value-label lg:hidden">Growth:</span><span class="feature-value-content">✓</span></span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    <!-- 
+      ===== TESTIMONIAL SECTION =====
+      CRO NOTE: Simple, direct social proof to build trust.
+    -->
+    <section class="py-20 lg:py-24 bg-brandPinkLight">
+      <div class="container mx-auto px-6 max-w-3xl text-center">
+        <h2 class="font-heading text-3xl font-bold text-brandDark">
+          "This is the demo that showed me what my business *could* be."
+        </h2>
+        <p class="mt-4 text-xl text-brandPink font-semibold">
+          - You (Hopefully!)
+        </p>
+        <p class="mt-2 text-gray-600">
+          (We're so excited to partner with you, we're saving this spot for your testimonial.)
+        </p>
+      </div>
+    </section>
+
+    <!-- 
+      ===== WHAT'S NOT INCLUDED SECTION =====
+      CRO NOTE: Manages expectations and builds trust.
+    -->
+    <section class="py-20 lg:py-24">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-brandDark text-center mb-10">
+                    Just to be Clear: What's Not Included
+                </h2>
+                <p class="text-lg text-gray-600 text-center mb-12">
+                    We believe in 100% transparency. These packages are for designing and building your
+                    website. They do not include the following, (but we can always help with them as add-ons!):
+                </p>
+                
+                <ul class="space-y-4">
+                    <li class="flex items-start p-6 bg-gray-50 rounded-2xl">
+                        <span class="text-brandDanger font-bold text-2xl mr-4">✗</span>
+                        <div>
+                            <h4 class="font-heading font-bold text-brandDark text-lg">Custom Logo & Brand Identity</h4>
+                            <p class="text-gray-600 text-sm">We'll use your existing logo or a simple text-based one. A full branding package is a separate service.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start p-6 bg-gray-50 rounded-2xl">
+                        <span class="text-brandDanger font-bold text-2xl mr-4">✗</span>
+                        <div>
+                            <h4 class="font-heading font-bold text-brandDark text-lg">Product Photography</h4>
+                            <p class="text-gray-600 text-sm">Your delicious bakes deserve amazing photos! We'll use the photos you provide. (P.S. Your Instagram photos are great!)</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start p-6 bg-gray-50 rounded-2xl">
+                        <span class="text-brandDanger font-bold text-2xl mr-4">✗</span>
+                        <div>
+                            <h4 class="font-heading font-bold text-brandDark text-lg">Writing Your Story (Copywriting)</h4>
+                            <p class="text-gray-600 text-sm">We'll provide the structure for your 'About' and 'Product' pages, but the story and descriptions come from you!</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+      ===== FINAL CTA SECTION (UPDATED) =====
+      CRO NOTE: Added the new custom package and "one client at a time" text.
+    -->
+    <section class="py-20 lg:py-24 bg-brandPinkLight">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="font-heading text-4xl lg:text-5xl font-extrabold text-brandDark max-w-3xl mx-auto">
+                Ready to Start Blooming?
+            </h2>
+            
+            <!-- NEW TEXT -->
+            <div class="mt-8 max-w-3xl mx-auto">
+                <p class="text-xl text-brandText font-semibold">
+                    We believe in long-term growth, one client at a time.
+                </p>
+                <p class="mt-2 text-lg text-gray-600">
+                    Don't see a perfect fit? No problem! <span class="font-bold text-brandPink">We can build a custom package just for you.</span>
+                </p>
+            </div>
+            
+            <p class="mt-8 text-lg text-brandText max-w-2xl mx-auto">
+                No complex checkout, no pressure. Let's just chat.
+                Send us a message on Instagram and we'll get your spot secured
+                and start planning your dream site!
+            </p>
+            <div class="mt-12">
+                <a href="https://www.instagram.com/jetweblabs" target="_blank" class="bg-brandPink text-white text-xl font-bold py-5 px-12 rounded-full shadow-brand hover:bg-brandPinkHover hover:scale-105 transform transition-all duration-300">
+                    Let's Chat on Instagram!
+                </a>
+                <p class="mt-4 text-sm text-gray-500">Our handle is <span class="font-semibold text-brandDark">@jetweblabs</span></p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ===== FOOTER ===== -->
+    <footer class="py-12 bg-white">
+      <div class="container mx-auto px-6 text-center">
+        <p class="text-gray-500">
+          Built with ❤️ by <a href="https://www.instagram.com/jetweblabs" target="_blank" class="font-bold text-brandPink hover:underline">Jetweblabs</a>
+        </p>
+      </div>
+    </footer>
+    
+    <!-- 
+      CTO NOTE:
+      This file is 100% self-contained. No external JS files (apart from
+      Tailwind CDN) and all styles are generated by Tailwind or in the
+      <style> tag.
+    -->
+
+</body>
+</html>
+
