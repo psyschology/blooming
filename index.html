@@ -1,0 +1,2681 @@
+<!DOCTYPE html>
+<html lang="en-GB"> <!-- CTO NOTE: Set language to en-GB for UK client -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blooming Bakes | Cute Cupcakes & Bespoke Orders</title>
+    
+    <!-- 
+      CDO NOTE:
+      Loading our brand fonts. 'Poppins' is our heading font – it's friendly,
+      rounded, and playful, matching the "cute" aesthetic. 'Inter' is our
+      body font for its excellent readability and clean, modern feel.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- 
+      CTO NOTE:
+      All CSS is contained within this single <style> tag as requested.
+      We are using CSS variables (see :root) for the entire brand palette.
+      This is a best practice that allows for rapid, site-wide theme adjustments.
+    -->
+    <style>
+      /* * =========================================
+       * ROOT & VARIABLE DEFINITIONS (CDO)
+       * =========================================
+       * This is the core of the "Blooming Bakes" brand identity.
+       * Soft Pink (#FCE7F3): Backgrounds, sweet, floral.
+       * Bright Pink (#DB2777): Primary CTAs, energetic, confident.
+       * Pastel Yellow/Orange: Accent colours, friendly, warm.
+      */
+      :root {
+        --font-heading: 'Poppins', sans-serif;
+        --font-body: 'Inter', sans-serif;
+        
+        --color-pink-light: #FCE7F3;   /* Soft Pink */
+        --color-pink-dark: #DB2777;    /* Bright Pink */
+        --color-pink-hover: #BE185D;   /* Bright Pink Hover */
+        
+        --color-accent-yellow: #FDE68A;
+        --color-accent-orange: #FDBA74;
+        
+        --color-white: #ffffff;
+        --color-gray-light: #f9fafb;
+        --color-gray-med: #e5e7eb;
+        --color-gray-dark: #6b7280;
+        --color-text: #374151;
+        --color-dark: #1f2937;
+        
+        --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+        --shadow-md: 0 4px 10px rgba(0,0,0,0.06);
+        --shadow-lg: 0 10px 20px rgba(0,0,0,0.07), 0 3px 6px rgba(0,0,0,0.05);
+        --shadow-xl: 0 20px 30px -10px rgba(219, 39, 119, 0.2); /* Pink shadow */
+        
+        --border-radius-sm: 8px;
+        --border-radius-md: 16px;
+        --border-radius-lg: 24px;
+        --border-radius-full: 999px; /* Pill shape */
+        
+        --transition-fast: all 0.2s ease-in-out;
+        --transition-med: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        --container-width: 1200px;
+      }
+
+      /* * =========================================
+       * GLOBAL RESET & BASE STYLING (CTO)
+       * =========================================
+      */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        font-family: var(--font-body);
+        font-weight: 400;
+        line-height: 1.6;
+        color: var(--color-text);
+        background-color: var(--color-white);
+        overflow-x: hidden;
+      }
+      
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* * =========================================
+       * TYPOGRAPHY (CDO)
+       * =========================================
+       * Using the friendly, rounded Poppins for all headings.
+      */
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--color-dark);
+        margin-bottom: 1.25rem;
+      }
+      
+      h1 { font-size: 3.25rem; font-weight: 800; letter-spacing: -0.5px; }
+      h2 { font-size: 2.5rem; }
+      h3 { font-size: 1.75rem; }
+      h4 { font-size: 1.25rem; }
+      
+      p {
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+        max-width: 65ch;
+      }
+      
+      p.lead {
+        font-size: 1.2rem;
+        color: var(--color-gray-dark);
+      }
+      
+      a {
+        color: var(--color-pink-dark);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition-fast);
+      }
+      
+      a:hover {
+        color: var(--color-pink-hover);
+        text-decoration: underline;
+      }
+      
+      .text-pink { color: var(--color-pink-dark); }
+      .text-center { text-align: center; }
+      .text-small { font-size: 0.9rem; }
+      
+      .section-subtitle {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--color-pink-dark);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      /* * =========================================
+       * LAYOUT & UTILITY CLASSES (CTO)
+       * =========================================
+      */
+      .container {
+        width: 100%;
+        max-width: var(--container-width);
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 1.5rem;
+      }
+      
+      .section {
+        padding: 6rem 0;
+      }
+      
+      .section-condensed {
+        padding: 4rem 0;
+      }
+      
+      .bg-pink-light { background-color: var(--color-pink-light); }
+      .bg-gray-light { background-color: var(--color-gray-light); }
+      
+      .grid {
+        display: grid;
+        gap: 2.5rem;
+      }
+      
+      .grid-2-col { grid-template-columns: 1fr 1fr; }
+      .grid-3-col { grid-template-columns: repeat(3, 1fr); }
+      
+      .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .align-center {
+        align-items: center;
+      }
+      
+      .mt-2 { margin-top: 1rem; }
+      .mt-4 { margin-top: 2rem; }
+      .mb-4 { margin-bottom: 2rem; }
+
+      /* * =========================================
+       * BUTTONS & FORMS (CDO)
+       * =========================================
+       * All buttons are pill-shaped (border-radius-full)
+       * to maximize the friendly, cute, approachable vibe.
+      */
+      .btn {
+        font-family: var(--font-heading);
+        display: inline-block;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 0.8rem 2rem;
+        border-radius: var(--border-radius-full);
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: var(--transition-med);
+        text-decoration: none !important;
+        line-height: 1.4;
+        text-align: center;
+        box-shadow: var(--shadow-md);
+      }
+      
+      .btn-lg {
+        font-size: 1.1rem;
+        padding: 1rem 2.5rem;
+      }
+      
+      .btn-primary {
+        background-color: var(--color-pink-dark);
+        color: var(--color-white);
+        border-color: var(--color-pink-dark);
+      }
+      
+      .btn-primary:hover {
+        background-color: var(--color-pink-hover);
+        border-color: var(--color-pink-hover);
+        color: var(--color-white);
+        transform: scale(1.03) translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .btn-secondary {
+        background-color: var(--color-accent-orange);
+        color: var(--color-dark);
+        border-color: var(--color-accent-orange);
+      }
+      
+      .btn-secondary:hover {
+        background-color: #F97316; /* Darker orange */
+        border-color: #F97316;
+        color: var(--color-white);
+        transform: scale(1.03) translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .btn-outline {
+        background-color: transparent;
+        color: var(--color-pink-dark);
+        border-color: var(--color-pink-dark);
+      }
+      
+      .btn-outline:hover {
+        background-color: var(--color-pink-dark);
+        color: var(--color-white);
+        transform: scale(1.03) translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .btn-full {
+        width: 100%;
+        display: block;
+      }
+      
+      /* Form Styling */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      
+      .form-label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: var(--font-heading);
+        color: var(--color-dark);
+        margin-bottom: 0.5rem;
+      }
+      
+      .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.9rem 1.2rem;
+        font-size: 1rem;
+        font-family: var(--font-body);
+        color: var(--color-text);
+        background-color: var(--color-gray-light);
+        border: 2px solid var(--color-gray-med);
+        border-radius: var(--border-radius-sm);
+        transition: var(--transition-fast);
+      }
+      
+      .form-control:focus {
+        outline: none;
+        border-color: var(--color-pink-dark);
+        background-color: var(--color-white);
+        box-shadow: 0 0 0 3px var(--color-pink-light);
+      }
+      
+      textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+        border-radius: var(--border-radius-md);
+      }
+
+      /* Quantity Selector */
+      .quantity-selector {
+        display: flex;
+        align-items: center;
+        border: 2px solid var(--color-gray-med);
+        border-radius: var(--border-radius-full);
+        overflow: hidden;
+        max-width: 150px;
+      }
+      
+      .quantity-btn {
+        width: 44px;
+        height: 44px;
+        border: none;
+        background-color: var(--color-pink-light);
+        color: var(--color-pink-dark);
+        font-size: 1.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        line-height: 1;
+      }
+      .quantity-btn:hover {
+        background-color: var(--color-accent-yellow);
+      }
+      
+      .quantity-input {
+        width: 50px;
+        height: 44px;
+        text-align: center;
+        border: none;
+        border-left: 2px solid var(--color-gray-med);
+        border-right: 2px solid var(--color-gray-med);
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-dark);
+        -moz-appearance: textfield;
+      }
+      .quantity-input:focus {
+        outline: none;
+      }
+      .quantity-input::-webkit-outer-spin-button,
+      .quantity-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* * =========================================
+       * HEADER & NAVIGATION (CDO)
+       * =========================================
+      */
+      .site-header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 1.25rem 0;
+        z-index: 1000;
+        border-bottom: 1px solid var(--color-gray-med);
+        box-shadow: var(--shadow-sm);
+      }
+      
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .logo {
+        font-family: var(--font-heading);
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--color-dark);
+        text-decoration: none;
+      }
+      .logo span {
+        color: var(--color-pink-dark);
+        font-size: 2.5rem; /* Cute larger dot */
+      }
+      .logo:hover {
+        text-decoration: none;
+      }
+      
+      .main-nav {
+        display: flex;
+        align-items: center;
+      }
+      
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+      
+      .nav-links li {
+        margin-left: 2rem;
+      }
+      
+      .nav-link {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--color-text);
+        text-decoration: none;
+        padding: 0.5rem 0.25rem;
+        position: relative;
+        transition: var(--transition-fast);
+        cursor: pointer;
+      }
+      
+      /* Active state underline */
+      .nav-link::after {
+        content: '🌸'; /* Floral, cute active state */
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%) scale(0);
+        font-size: 1rem;
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+      
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--color-pink-dark);
+      }
+      
+      .nav-link.active::after {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+      }
+      
+      .nav-icons {
+        display: flex;
+        align-items: center;
+        margin-left: 2rem;
+      }
+      
+      .cart-icon-wrapper {
+        position: relative;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+      
+      .cart-icon {
+        width: 28px;
+        height: 28px;
+        color: var(--color-dark);
+        transition: var(--transition-fast);
+      }
+      .cart-icon-wrapper:hover .cart-icon {
+        color: var(--color-pink-dark);
+        transform: scale(1.1);
+      }
+      
+      .cart-item-count {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background-color: var(--color-pink-dark);
+        color: var(--color-white);
+        font-size: 0.75rem;
+        font-weight: 700;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        border: 2px solid var(--color-white);
+      }
+
+      /* Mobile Nav Toggle */
+      .mobile-menu-toggle {
+        display: none; /* Hidden on desktop */
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 1002;
+        margin-left: 1rem;
+        padding: 0.5rem;
+      }
+      
+      .mobile-menu-toggle-icon {
+        width: 28px;
+        height: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      
+      .mobile-menu-toggle-icon span {
+        display: block;
+        width: 100%;
+        height: 4px;
+        background-color: var(--color-pink-dark);
+        border-radius: 2px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* * =========================================
+       * PAGE TRANSITION SYSTEM (CTO)
+       * =========================================
+      */
+      .page {
+        display: none;
+        opacity: 0;
+        animation: pageFadeIn 0.5s ease forwards;
+      }
+      
+      .page.active {
+        display: block;
+      }
+      
+      @keyframes pageFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      /* * =========================================
+       * PAGE: HOME (CDO)
+       * =========================================
+      */
+      
+      /* Hero Section */
+      .hero-section {
+        min-height: calc(90vh - 90px);
+        display: flex;
+        align-items: center;
+        background-color: var(--color-pink-light);
+        padding: 4rem 0;
+      }
+      
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 4rem;
+      }
+      
+      .hero-text {
+        animation: contentFadeInUp 0.8s ease 0.2s forwards;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      
+      .hero-text h1 {
+        font-size: 3.75rem;
+        line-height: 1.1;
+      }
+      
+      .hero-text p.lead {
+        font-size: 1.25rem;
+        margin-bottom: 2.5rem;
+      }
+      
+      .hero-image img {
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-xl);
+        transform: rotate(3deg); /* Cute, playful tilt */
+        transition: var(--transition-med);
+      }
+      .hero-image img:hover {
+        transform: rotate(0deg) scale(1.02);
+      }
+      
+      @keyframes contentFadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      /* Features Section */
+      .feature-card {
+        text-align: center;
+        padding: 2rem 1rem;
+      }
+      
+      .feature-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: var(--color-pink-light);
+        color: var(--color-pink-dark);
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        font-size: 2.5rem; /* Emoji size */
+      }
+      
+      .feature-card h3 {
+        font-size: 1.5rem;
+      }
+      
+      .feature-card p {
+        font-size: 0.95rem;
+        max-width: 40ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      /* Instagram Feed Section */
+      .instagram-feed-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1.5rem;
+      }
+      
+      .insta-post {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        aspect-ratio: 1 / 1;
+      }
+      
+      .insta-post img {
+        transition: var(--transition-med);
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .insta-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(219, 39, 119, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: var(--transition-med);
+        color: var(--color-white);
+        font-size: 2.5rem;
+      }
+      
+      .insta-post:hover .insta-overlay {
+        opacity: 1;
+      }
+      
+      .insta-post:hover img {
+        transform: scale(1.1) rotate(2deg);
+      }
+      
+      .instagram-feed-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .instagram-feed-header p {
+        font-size: 1.1rem;
+      }
+
+      /* * =========================================
+       * PAGE: SHOP CUPCAKES (CDO)
+       * =========================================
+      */
+      .page-header {
+        text-align: center;
+        padding: 4rem 0;
+        background-color: var(--color-pink-light);
+        border-radius: var(--border-radius-lg);
+        margin-bottom: 5rem;
+      }
+      
+      .page-header h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .page-header p {
+        font-size: 1.1rem;
+        max-width: 60ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.5rem;
+      }
+      
+      .product-card {
+        background-color: var(--color-white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: var(--transition-med);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--color-gray-med);
+      }
+      
+      .product-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-8px);
+        border-color: var(--color-pink-light);
+      }
+      
+      .product-card-image-link {
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      
+      .product-card-image {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .product-card-image img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+      }
+      
+      .product-card-content {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        text-align: center;
+      }
+      
+      .product-card-title {
+        font-family: var(--font-heading);
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--color-dark);
+        margin-bottom: 0.5rem;
+        text-decoration: none;
+      }
+      .product-card-image-link:hover .product-card-title {
+        color: var(--color-pink-dark);
+      }
+      
+      .product-card-price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--color-pink-dark);
+        margin-bottom: 1.5rem;
+      }
+      
+      .product-card-actions {
+        margin-top: auto; /* Pushes button to the bottom */
+      }
+      
+      .product-card-actions .btn {
+        font-size: 0.9rem;
+      }
+
+      /* * =========================================
+       * PAGE: PRODUCT DETAIL PAGE (PDP) (CTO/CDO)
+       * =========================================
+      */
+      .pdp-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: flex-start;
+      }
+      
+      .pdp-image-gallery {
+        position: sticky;
+        top: 120px;
+      }
+      
+      .pdp-main-image img {
+        width: 100%;
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-lg);
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+      }
+      
+      .pdp-details {
+        padding-top: 1rem;
+      }
+      
+      .pdp-details h1 {
+        font-size: 2.75rem;
+        margin-bottom: 1rem;
+      }
+      
+      .pdp-price {
+        font-family: var(--font-heading);
+        font-size: 2.25rem;
+        color: var(--color-pink-dark);
+        margin-bottom: 2rem;
+        font-weight: 700;
+      }
+      
+      .pdp-description {
+        font-size: 1.05rem;
+        border-top: 1px solid var(--color-gray-med);
+        border-bottom: 1px solid var(--color-gray-med);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+      }
+      
+      .pdp-actions {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 2rem;
+        align-items: center;
+        background-color: var(--color-gray-light);
+        padding: 1.5rem;
+        border-radius: var(--border-radius-md);
+      }
+      
+      .pdp-actions .btn {
+        flex-shrink: 0;
+      }
+
+      /* * =========================================
+       * PAGE: BESPOKE ORDERS (CDO)
+       * =========================================
+      */
+      .bespoke-content {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      
+      .bespoke-intro-text p {
+        font-size: 1.1rem;
+        color: var(--color-gray-dark);
+      }
+      
+      .bespoke-intro-text ul {
+        list-style: '🌸';
+        margin-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .bespoke-intro-text ul li {
+        font-size: 1.1rem;
+        padding-left: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      
+      .bespoke-form-wrapper {
+        background-color: var(--color-white);
+        border-radius: var(--border-radius-lg);
+        padding: 2.5rem;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--color-gray-med);
+      }
+      
+      .bespoke-form-wrapper h3 {
+        text-align: center;
+        color: var(--color-dark);
+      }
+      
+      #bespoke-success-message {
+        display: none;
+        text-align: center;
+        padding: 3rem 1rem;
+      }
+      
+      #bespoke-success-message h3 {
+        color: var(--color-pink-dark);
+      }
+      
+      #bespoke-success-message .success-icon {
+        font-size: 4rem;
+        color: var(--color-pink-dark);
+        line-height: 1;
+        margin-bottom: 1.5rem;
+      }
+
+      /* * =========================================
+       * PAGE: GALLERY (CDO)
+       * =========================================
+      */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+      }
+      
+      .gallery-item img {
+        transition: var(--transition-med);
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .gallery-item-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 1.5rem;
+        background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+        color: var(--color-white);
+        font-family: var(--font-heading);
+        font-weight: 600;
+        font-size: 1.2rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: var(--transition-med);
+      }
+      
+      .gallery-item:hover img {
+        transform: scale(1.1);
+      }
+      .gallery-item:hover .gallery-item-overlay {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* * =========================================
+       * FOOTER (CDO)
+       * =========================================
+      */
+      .site-footer {
+        background-color: var(--color-pink-light);
+        color: var(--color-text);
+        padding: 5rem 0 3rem 0;
+        margin-top: 6rem;
+      }
+      
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1.5fr;
+        gap: 3rem;
+      }
+      
+      .footer-logo {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--color-dark);
+        margin-bottom: 1.5rem;
+        text-decoration: none;
+      }
+      .footer-logo span { color: var(--color-pink-dark); }
+      .footer-logo:hover { text-decoration: none; }
+      
+      .footer-about p {
+        color: var(--color-gray-dark);
+        font-size: 0.95rem;
+        max-width: 40ch;
+      }
+      
+      .footer-widget h4 {
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-dark);
+        margin-bottom: 1.5rem;
+      }
+      
+      .footer-links {
+        list-style: none;
+      }
+      
+      .footer-links li {
+        margin-bottom: 0.75rem;
+      }
+      
+      .footer-links a {
+        color: var(--color-text);
+        font-weight: 500;
+      }
+      
+      .footer-links a:hover {
+        color: var(--color-pink-dark);
+        padding-left: 5px;
+      }
+      
+      .footer-socials {
+        display: flex;
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+      }
+      
+      .social-link {
+        color: var(--color-pink-dark);
+      }
+      .social-link svg {
+        width: 24px;
+        height: 24px;
+      }
+      .social-link:hover {
+        color: var(--color-pink-hover);
+        transform: scale(1.1);
+      }
+      
+      .footer-bottom {
+        border-top: 1px solid var(--color-gray-med);
+        margin-top: 4rem;
+        padding-top: 2rem;
+        text-align: center;
+      }
+      
+      .footer-bottom p {
+        font-size: 0.9rem;
+        color: var(--color-gray-dark);
+        margin: 0;
+      }
+
+      /* * =========================================
+       * MODAL & CHECKOUT FLOW (CTO/CDO)
+       * =========================================
+      */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+      }
+      
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .modal-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        max-width: 500px;
+        height: 100%;
+        background-color: var(--color-white);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.15);
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .modal-overlay.active .modal-content {
+        transform: translateX(0);
+      }
+      
+      .modal-header {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--color-gray-med);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      
+      .modal-title {
+        font-family: var(--font-heading);
+        font-size: 1.75rem;
+        color: var(--color-dark);
+        margin: 0;
+      }
+      
+      .modal-close-btn {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--color-gray-dark);
+        background: none;
+        border: none;
+        cursor: pointer;
+        line-height: 1;
+        transition: var(--transition-fast);
+      }
+      .modal-close-btn:hover {
+        color: var(--color-pink-dark);
+        transform: rotate(90deg);
+      }
+      
+      .modal-body {
+        padding: 2rem;
+        overflow-y: auto;
+        flex-grow: 1;
+      }
+      
+      /* Lightbox Modal */
+      .lightbox-overlay .modal-content {
+        top: 50%;
+        left: 50%;
+        right: auto;
+        bottom: auto;
+        width: 90%;
+        max-width: 900px;
+        height: auto;
+        max-height: 90vh;
+        transform: translate(-50%, -50%) scale(0.95);
+        opacity: 0;
+        border-radius: var(--border-radius-lg);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+      }
+      
+      .lightbox-overlay.active .modal-content {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      
+      .lightbox-overlay .modal-body { padding: 0; }
+      .lightbox-overlay .modal-close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        z-index: 10;
+        color: var(--color-white);
+        background-color: rgba(0,0,0,0.3);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 2rem;
+      }
+      
+      /* Checkout Step System */
+      .checkout-step {
+        display: none;
+      }
+      .checkout-step.active {
+        display: block;
+        animation: pageFadeIn 0.4s ease;
+      }
+      
+      /* Step 1: Cart Summary */
+      .cart-item {
+        display: flex;
+        gap: 1.5rem;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--color-gray-med);
+      }
+      .cart-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+      
+      .cart-item-image img {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: var(--border-radius-sm);
+      }
+      
+      .cart-item-details {
+        flex: 1;
+      }
+      
+      .cart-item-title {
+        font-family: var(--font-heading);
+        font-weight: 600;
+        color: var(--color-dark);
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+      }
+      
+      .cart-item-price {
+        font-size: 1rem;
+        color: var(--color-pink-dark);
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      
+      .cart-item-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .cart-item-actions .quantity-selector {
+        max-width: 120px;
+        border-radius: var(--border-radius-md);
+      }
+      .cart-item-actions .quantity-btn { height: 32px; width: 32px; font-size: 1.2rem; }
+      .cart-item-actions .quantity-input { height: 32px; width: 40px; font-size: 1rem; }
+      
+      .cart-item-remove-btn {
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+      
+      .cart-empty-message {
+        text-align: center;
+        padding: 4rem 1rem;
+      }
+      .cart-empty-message h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .cart-summary-box {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid var(--color-gray-med);
+      }
+      
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+      
+      .summary-row.total {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--color-dark);
+        font-family: var(--font-heading);
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px dashed var(--color-gray-med);
+      }
+      
+      .summary-label {
+        font-weight: 500;
+        color: var(--color-gray-dark);
+      }
+      
+      .summary-value {
+        font-weight: 600;
+        color: var(--color-dark);
+      }
+      
+      .checkout-footer {
+        padding: 1.5rem 2rem;
+        border-top: 1px solid var(--color-gray-med);
+        background-color: var(--color-gray-light);
+        flex-shrink: 0;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+      }
+      
+      /* Step 4: Confirmation */
+      .checkout-success {
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+      
+      .checkout-success-icon {
+        font-size: 5rem;
+        color: var(--color-pink-dark);
+        line-height: 1;
+        margin-bottom: 2rem;
+        animation: successIconPop 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      @keyframes successIconPop {
+        0% { transform: scale(0.5); opacity: 0; }
+        60% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(1); }
+      }
+      
+      .checkout-success h2 {
+        font-size: 2.25rem;
+      }
+      
+      .checkout-success p {
+        font-size: 1.1rem;
+        max-width: 45ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      /* * =========================================
+       * HELPER: TOAST NOTIFICATION (CTO)
+       * =========================================
+      */
+      .toast-notification {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%, 100px);
+        background-color: var(--color-dark);
+        color: var(--color-white);
+        padding: 1rem 2rem;
+        border-radius: var(--border-radius-full);
+        box-shadow: var(--shadow-xl);
+        z-index: 3000;
+        font-family: var(--font-heading);
+        font-weight: 600;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .toast-notification.show {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+      
+      /* * =========================================
+       * RESPONSIVE DESIGN (CTO)
+       * =========================================
+      */
+      
+      @media (max-width: 1024px) {
+        h1 { font-size: 2.75rem; }
+        h2 { font-size: 2rem; }
+        .hero-text h1 { font-size: 3rem; }
+
+        .grid-3-col, .product-grid, .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .pdp-container {
+          grid-template-columns: 1fr;
+        }
+        
+        .pdp-image-gallery {
+          position: static;
+          top: 0;
+        }
+        
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        
+        .instagram-feed-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .bespoke-content {
+          grid-template-columns: 1fr;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .section { padding: 4rem 0; }
+        .container { padding: 0 1.5rem; }
+        
+        h1 { font-size: 2.25rem; }
+        .hero-text h1 { font-size: 2.5rem; }
+        
+        .hero-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .hero-image {
+          grid-row: 1;
+          margin-bottom: 2rem;
+        }
+        
+        /* Mobile Navigation */
+        .main-nav {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: var(--color-white);
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 6rem 2rem 2rem 2rem;
+          transform: translateX(100%);
+          transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+          z-index: 1001;
+        }
+        
+        .header-content.mobile-nav-open .main-nav {
+          transform: translateX(0);
+          box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        }
+        
+        .nav-links {
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          text-align: center;
+        }
+        
+        .nav-links li {
+          margin: 0;
+          width: 100%;
+        }
+        
+        .nav-link {
+          font-size: 1.75rem;
+          font-weight: 700;
+          color: var(--color-dark);
+          padding: 1.25rem 0;
+          display: block;
+          width: 100%;
+        }
+        
+        .nav-link::after { display: none; }
+        .nav-link.active { color: var(--color-pink-dark); }
+        
+        .nav-icons {
+          margin-left: auto;
+          z-index: 1002;
+        }
+        
+        .cart-icon-wrapper {
+          margin-right: 1rem;
+        }
+        
+        .mobile-menu-toggle {
+          display: flex;
+        }
+        
+        /* Hamburger to "X" animation */
+        .header-content.mobile-nav-open .mobile-menu-toggle-icon span:nth-child(1) {
+          transform: rotate(45deg) translate(7px, 7px);
+        }
+        .header-content.mobile-nav-open .mobile-menu-toggle-icon span:nth-child(2) {
+          opacity: 0;
+          transform: scale(0);
+        }
+        .header-content.mobile-nav-open .mobile-menu-toggle-icon span:nth-child(3) {
+          transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        /* Layouts */
+        .grid-3-col { grid-template-columns: 1fr; }
+        
+        .instagram-feed-grid, .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .product-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .footer-grid {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        
+        .modal-content {
+          max-width: 100vw;
+          width: 100%;
+        }
+        
+        .pdp-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
+      
+    </style>
+</head>
+<body>
+
+    <!-- 
+      * =========================================
+      * SITE HEADER (CTO)
+      * =========================================
+      * Contains logo, navigation, and cart.
+      * Navigation uses data-navlink attributes for our JS router.
+      * Cart icon has a counter 'cart-item-count'.
+      * Fully responsive with hamburger toggle.
+    -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content" id="header-content">
+                <a href="#" class="logo" data-navlink="home">Blooming Bakes<span>.</span></a>
+                
+                <div class="nav-icons">
+                    <div class="cart-icon-wrapper" id="cart-icon-wrapper">
+                        <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                        <span class="cart-item-count" id="cart-item-count">0</span>
+                    </div>
+                    
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                        <span class="mobile-menu-toggle-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </button>
+                </div>
+
+                <nav class="main-nav" id="main-nav">
+                    <ul class="nav-links">
+                        <li><a href="#" class="nav-link active" data-navlink="home">Home</a></li>
+                        <li><a href="#" class="nav-link" data-navlink="shop">Shop Cupcakes</a></li>
+                        <li><a href="#" class="nav-link" data-navlink="bespoke">Bespoke Orders</a></li>
+                        <li><a href="#" class="nav-link" data-navlink="gallery">Gallery</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- 
+      * =========================================
+      * MAIN CONTENT WRAPPER (CTO)
+      * =========================================
+      * All "pages" live inside <main>. Only the
+      * one with the 'active' class is visible.
+    -->
+    <main>
+
+        <!-- 
+          * =========================================
+          * PAGE: HOME
+          * =========================================
+        -->
+        <section id="page-home" data-page="home" class="page active">
+            
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <span class="section-subtitle">Welcome to Blooming Bakes!</span>
+                            <h1>From My Kitchen to Yours<span>.</span></h1>
+                            <p class="lead">
+                                Cute, custom, and delicious cupcakes baked fresh in the heart 
+                                of the UK. Forget the boring stuff—let's make something sweet!
+                            </p>
+                            <a href="#" class="btn btn-primary btn-lg" data-navlink="shop">Shop Best Sellers</a>
+                            <a href="#" class="btn btn-outline mt-2" data-navlink="bespoke" style="margin-left: 1rem;">Plan Your Party</a>
+                        </div>
+                        <div class="hero-image">
+                            <img src="https://placehold.co/800x800/fce7f3/db2777?text=Blooming+Bakes+Hero" alt="A beautiful box of Blooming Bakes cupcakes">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Features Section -->
+            <section class="section">
+                <div class="container">
+                    <div class="text-center mb-4" style="max-width: 650px; margin-left: auto; margin-right: auto;">
+                        <span class="section-subtitle">What Makes Me Different</span>
+                        <h2>A Little Bit of Love in Every Bite</h2>
+                    </div>
+                    
+                    <div class="grid grid-3-col">
+                        <div class="feature-card">
+                            <div class="feature-icon">❤️</div>
+                            <h3>Baked with Love</h3>
+                            <p>This isn't a factory. It's just me, in my kitchen, putting my heart into every single batch. Cringey, but true!</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🌸</div>
+                            <h3>Totally Custom</h3>
+                            <p>Got a theme? A weird flavour idea? A specific colour? I love a challenge! Let's create your perfect bespoke order.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">✨</div>
+                            <h3>Always Fresh</h3>
+                            <p>I bake everything fresh to order. No frozen stuff here. Just gooey, fluffy, melt-in-your-mouth goodness.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 
+              * CTO/CDO NOTE: Simulated Instagram Feed
+              * This is critical for a new entrepreneur who lives on social.
+              * It connects her 52 followers to this new, professional world.
+            -->
+            <section class="section bg-pink-light">
+                <div class="container">
+                    <div class="instagram-feed-header">
+                        <span class="section-subtitle">Get Inspired</span>
+                        <h2>Follow My Baking Journey</h2>
+                        <p>I'm always posting my latest creations, behind-the-scenes, and special offers on Instagram!</p>
+                        <a href="#" class="btn btn-primary mt-2">Follow @bloomingbakes_uk</a>
+                    </div>
+                    
+                    <div class="instagram-feed-grid">
+                        <div class="insta-post">
+                            <img src="https://placehold.co/400x400/fce7f3/db2777?text=Autumn+Cupcakes" alt="Instagram post of cupcakes">
+                            <div class="insta-overlay">❤️</div>
+                        </div>
+                        <div class="insta-post">
+                            <img src="https://placehold.co/400x400/fde68a/db2777?text=Lemon+Drizzle" alt="Instagram post of lemon cupcakes">
+                            <div class="insta-overlay">❤️</div>
+                        </div>
+                        <div class="insta-post">
+                            <img src="https://placehold.co/400x400/fce7f3/db2777?text=Bespoke+Order" alt="Instagram post of a custom cake">
+                            <div class="insta-overlay">❤️</div>
+                        </div>
+                        <div class="insta-post">
+                            <img src="https://placehold.co/400x400/fde68a/db2777?text=Chocolate+Box" alt="Instagram post of chocolate cupcakes">
+                            <div class="insta-overlay">❤️</div>
+                        </div>
+                        <div class="insta-post">
+                            <img src="https://placehold.co/400x400/fce7f3/db2777?text=Floral+Piping" alt="Instagram post of floral piping">
+                            <div class="insta-overlay">❤️</div>
+                        </div>
+                        <div class="insta-post">
+                            <img src="https://placehold.co/400x400/fde68a/db2777?text=Behind+the+Scenes" alt="Instagram post of baking">
+                            <div class="insta-overlay">❤️</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </section>
+
+        <!-- 
+          * =========================================
+          * PAGE: SHOP CUPCAKES (E-COMMERCE FUNNEL)
+          * =========================================
+          * CTO NOTE: The 'product-grid-target' div will be
+          * dynamically populated by our JS 'e-commerce engine'.
+        -->
+        <section id="page-shop" data-page="shop" class="page">
+            
+            <section class="section">
+                <div class="container">
+                    <header class="page-header">
+                        <span class="section-subtitle">Treat Yourself!</span>
+                        <h1>Shop Cupcakes</h1>
+                        <p>
+                            My most popular cupcake boxes, baked fresh and ready to order.
+                            All prices are in **Pounds (£)**.
+                        </p>
+                    </header>
+                    
+                    <div class="product-grid" id="product-grid-target">
+                        <!-- 
+                          CTO NOTE: This content is a fallback/loader.
+                          JavaScript will clear and render this section.
+                        -->
+                        <div class="product-card">
+                            <div class="product-card-image">
+                                <img src="https://placehold.co/400x400/fce7f3/a3a3a3?text=Loading..." alt="Loading product">
+                            </div>
+                            <div class="product-card-content">
+                                <h4 class="product-card-title">Loading...</h4>
+                                <div class="product-card-price">£0.00</div>
+                                <div class="product-card-actions">
+                                    <a href="#" class="btn btn-primary btn-full">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </section>
+        
+        <!-- 
+          * =========================================
+          * PAGE: PRODUCT DETAIL PAGE (PDP)
+          * =========================================
+          * CTO NOTE: This page is a "template". JS will find
+          * the elements by ID and populate them based on
+          * which product was clicked.
+        -->
+        <section id="page-pdp" data-page="pdp" class="page">
+            <div class="section">
+                <div class="container">
+                    <div class="pdp-container" id="pdp-content-target">
+                        <!-- Fallback / Structure -->
+                        <div class="pdp-image-gallery">
+                            <div class="pdp-main-image">
+                                <img src="https://placehold.co/800x800/fce7f3/db2777?text=Blooming+Bakes" alt="Product image">
+                            </div>
+                        </div>
+                        <div class="pdp-details">
+                            <h1>Product Title</h1>
+                            <div class="pdp-price">£0.00</div>
+                            <div class="pdp-description">
+                                <p>Loading product details...</p>
+                            </div>
+                            <div class="pdp-actions">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Quantity</label>
+                                    <div class="quantity-selector">
+                                        <button class="quantity-btn" data-action="decrease">-</button>
+                                        <input type="number" class="quantity-input" id="pdp-quantity-input" value="1" min="1">
+                                        <button class="quantity-btn" data-action="increase">+</button>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" id="pdp-add-to-cart-btn" data-product-id="">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+          * =========================================
+          * PAGE: BESPOKE ORDERS
+          * =========================================
+          * CDO NOTE: This form is intentionally simple and
+          * friendly. It's a "lead-gen" funnel, not
+          * e-commerce. It's designed to start a conversation,
+          * just like her DMs, but structured.
+        -->
+        <section id="page-bespoke" data-page="bespoke" class="page">
+            
+            <section class="section">
+                <div class="container">
+                    <header class="page-header" style="margin-bottom: 3rem;">
+                        <span class="section-subtitle">Let's Get Creative</span>
+                        <h1>Bespoke Orders</h1>
+                        <p>
+                            Got a birthday, wedding, or 'just-because' party?
+                            I'd love to bake something special for you!
+                        </p>
+                    </header>
+                    
+                    <div class="bespoke-content">
+                        <div class="bespoke-intro-text">
+                            <h2>Let's plan your perfect bakes<span>.</span></h2>
+                            <p class="lead">
+                                This is the really fun part! I love working with you to
+                                create something totally unique.
+                            </p>
+                            <p>
+                                Just fill out this little form with your ideas (it's okay
+                                if you don't know all the details yet!) and I'll get back
+                                to you, normally within 24 hours, to chat.
+                            </p>
+                            <ul>
+                                <li>Custom Cakes</li>
+                                <li>Themed Cupcake Boxes</li>
+                                <li>Wedding Favours</li>
+                                <li>Party Boxes</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bespoke-form-wrapper">
+                            <form id="bespoke-form">
+                                <h3>Start Your Enquiry</h3>
+                                <div class="form-group">
+                                    <label for="bespoke-name" class="form-label">Your Name</label>
+                                    <input type="text" id="bespoke-name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bespoke-email" class="form-label">Your Email</label>
+                                    <input type="email" id="bespoke-email" class="form-control" required>
+                                </div>
+                                <div class="grid grid-2-col">
+                                    <div class="form-group">
+                                        <label for="bespoke-event" class="form-label">Type of Event</label>
+                                        <input type="text" id="bespoke-event" class="form-control" placeholder="e.g., Birthday, Hen Do">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bespoke-quantity" class="form-label">Approx. Quantity</label>
+                                        <input type="text" id="bespoke-quantity" class="form-control" placeholder="e.g., 50 cupcakes, 1 cake">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bespoke-ideas" class="form-label">Your Ideas!</label>
+                                    <textarea id="bespoke-ideas" class="form-control" placeholder="Tell me all about your theme, colours, flavour ideas..."></textarea>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-full" id="bespoke-submit-btn">Send My Enquiry</button>
+                            </form>
+                            
+                            <div id="bespoke-success-message">
+                                <div class="success-icon">🎉</div>
+                                <h3>Got it!</h3>
+                                <p>Thank you so much! I've received your enquiry and I'm probably already squealing with excitement. I'll pop you an email very soon to chat more!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </section>
+        
+        <!-- 
+          * =========================================
+          * PAGE: GALLERY
+          * =========================================
+        -->
+        <section id="page-gallery" data-page="gallery" class="page">
+            
+            <section class="section">
+                <div class="container">
+                    <header class="page-header">
+                        <span class="section-subtitle">My Favourite Bakes</span>
+                        <h1>Photo Gallery</h1>
+                        <p>
+                            A little look at some of the cute creations that
+                            have come out of my kitchen.
+                        </p>
+                    </header>
+                    
+                    <div class="gallery-grid" id="gallery-grid-target">
+                        <!-- JS will populate this -->
+                    </div>
+                </div>
+            </section>
+            
+        </section>
+        
+    </main>
+
+    <!-- 
+      * =========================================
+      * SITE FOOTER
+      * =========================================
+    -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-widget footer-about">
+                    <a href="#" class="footer-logo" data-navlink="home">Blooming Bakes<span>.</span></a>
+                    <p>
+                        Cute cupcakes & bespoke bakes,
+                        made with love in the UK.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-widget">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" data-navlink="home">Home</a></li>
+                        <li><a href="#" data-navlink="shop">Shop Cupcakes</a></li>
+                        <li><a href="#" data-navlink="bespoke">Bespoke Orders</a></li>
+                        <li><a href="#" data-navlink="gallery">Gallery</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-widget">
+                    <h4>Info</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Me</a></li>
+                        <li><a href="#">Delivery Info</a></li>
+                        <li><a href="#">Allergens</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-widget">
+                    <h4>Get in Touch</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">hello@bloomingbakes.co.uk</a></li>
+                        <li><a href="#">Based in London, UK</a></li>
+                        <li><a href="#">(020) 1234 5678</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Blooming Bakes. All Rights Reserved. </p>
+            </div>
+        </div>
+    </footer>
+    
+    
+    <!-- 
+      * =========================================
+      * MODAL: GALLERY LIGHTBOX (CTO)
+      * =========================================
+    -->
+    <div class="modal-overlay lightbox-overlay" id="lightbox-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="lightbox-close-btn">&times;</button>
+            <div class="modal-body">
+                <img src="" alt="Enlarged gallery image" id="lightbox-image" style="width: 100%; height: auto; display: block;">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
+      * =========================================
+      * MODAL: CHECKOUT (E-COMMERCE FUNNEL) (CTO)
+      * =========================================
+      * This single modal contains all 4 steps.
+      * Note the UK-specific form fields: "Postcode", "Town/City".
+      * All prices will be dynamically injected as £.
+    -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h3 class="modal-title" id="checkout-modal-title">Your Cart</h3>
+                <button class="modal-close-btn" id="checkout-close-btn">&times;</button>
+            </div>
+            
+            <div class="modal-body" id="checkout-modal-body">
+
+                <!-- 
+                  * CHECKOUT STEP 1: CART SUMMARY
+                -->
+                <div class="checkout-step active" data-checkout-step="1">
+                    <div id="cart-items-container">
+                        <!-- JS will render cart items here -->
+                    </div>
+                    
+                    <div class="cart-empty-message" id="cart-empty-message" style="display: none;">
+                        <h3>Your cart is empty!</h3>
+                        <p>Why not add some delicious cupcakes?</p>
+                        <button class="btn btn-primary mt-4" id="cart-continue-shopping-btn">Shop Cupcakes</button>
+                    </div>
+                    
+                    <div class="cart-summary-box" id="cart-summary-box" style="display: none;">
+                        <div class="summary-row">
+                            <span class="summary-label">Subtotal</span>
+                            <span class="summary-value" id="cart-subtotal">£0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Delivery</span>
+                            <span class="summary-value" id="cart-shipping">Calculated next step</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span class="summary-label">Total</span>
+                            <span class="summary-value" id="cart-total">£0.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 
+                  * CHECKOUT STEP 2: DELIVERY DETAILS
+                  * CTO NOTE: UK-specific fields.
+                -->
+                <div class="checkout-step" data-checkout-step="2">
+                    <form id="shipping-form">
+                        <h4 class="mb-4" style="font-family: var(--font-heading); font-size: 1.5rem;">Where should I deliver?</h4>
+                        <div class="form-group">
+                            <label for="ship-email" class="form-label">Email Address</label>
+                            <input type="email" id="ship-email" class="form-control" placeholder="you@example.com" required>
+                        </div>
+                        <div class="grid grid-2-col">
+                            <div class="form-group">
+                                <label for="ship-fname" class="form-label">First Name</label>
+                                <input type="text" id="ship-fname" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ship-lname" class="form-label">Last Name</label>
+                                <input type="text" id="ship-lname" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ship-address" class="form-label">Address Line 1</label>
+                            <input type="text" id="ship-address" class="form-control" placeholder="e.g., 10 Floral Street" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ship-city" class="form-label">Town / City</label>
+                            <input type="text" id="ship-city" class="form-control" placeholder="e.g., London" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ship-postcode" class="form-label">Postcode</label>
+                            <input type="text" id="ship-postcode" class="form-control" placeholder="e.g., WC2E 9LH" required>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 
+                  * CHECKOUT STEP 3: PAYMENT
+                -->
+                <div class="checkout-step" data-checkout-step="3">
+                    <form id="payment-form">
+                        <h4 class="mb-4" style="font-family: var(--font-heading); font-size: 1.5rem;">Payment Details</h4>
+                        <p class="text-small text-gray-dark mb-4">
+                            This is a simulation. Please don't enter real card details!
+                        </p>
+                        <div class="form-group">
+                            <label for="pay-cardnum" class="form-label">Card Number</label>
+                            <input type="text" id="pay-cardnum" class="form-control" placeholder="**** **** **** 4242" value="**** **** **** 4242">
+                        </div>
+                        <div class="form-group">
+                            <label for="pay-cardname" class="form-label">Name on Card</label>
+                            <input type="text" id="pay-cardname" class="form-control" placeholder="A. Blogger" value="A. Blogger">
+                        </div>
+                        <div class="grid grid-2-col">
+                            <div class="form-group">
+                                <label for="pay-expiry" class="form-label">Expiry (MM/YY)</label>
+                                <input type="text" id="pay-expiry" class="form-control" placeholder="12/28" value="12/28">
+                            </div>
+                            <div class="form-group">
+                                <label for="pay-cvc" class="form-label">CVC</label>
+                                <input type="text" id="pay-cvc" class="form-control" placeholder="123" value="123">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 
+                  * CHECKOUT STEP 4: ORDER CONFIRMATION
+                -->
+                <div class="checkout-step" data-checkout-step="4">
+                    <div class="checkout-success">
+                        <div class="checkout-success-icon">🌸</div>
+                        <h2>Order Confirmed!</h2>
+                        <p>
+                            Yay! Your order is in. I'm so excited to bake for you.
+                            A confirmation email is on its way.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="checkout-footer" id="checkout-footer">
+                <!-- JS will dynamically change this button's text and data-action -->
+                <button class="btn btn-primary btn-full" id="checkout-next-btn" data-checkout-action="next" data-next-step="2">
+                    Proceed to Delivery
+                </button>
+                <button class_b
+"btn btn-outline btn-full mt-2" id="checkout-prev-btn" data-checkout-action="prev" data-prev-step="0" style="display: none; border-color: var(--color-gray-med); color: var(--color-gray-dark);">
+                    Back to Cart
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 
+      * =========================================
+      * JAVASCRIPT APPLICATION (CTO)
+      * =========================================
+      * All application logic is contained here.
+      * This is a self-contained JS application.
+      * We use a single 'app' object to manage state
+      * and functionality, demonstrating clean architecture.
+    -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        /**
+         * =========================================
+         * CTO NOTE: APP STATE & DATABASES
+         * =========================================
+         * This is the "brain" of our simulation.
+         * 'app.state' holds the live data (cart, current page).
+         * 'app.db' simulates our backend databases.
+         * ALL prices are in numerical format.
+         */
+        
+        const app = {
+            state: {
+                activePage: 'home',
+                cart: [], // Stores { id, name, price, quantity, image }
+                checkoutStep: 1,
+            },
+            
+            // Simulates the product database
+            db: {
+                products: {
+                    'p1': {
+                        id: 'p1',
+                        name: 'Autumn Spice Cupcake Box',
+                        price: 18.00,
+                        image: 'https://placehold.co/600x600/FDBA74/8C2D04?text=Autumn+Spice',
+                        description: 'A box of 6 spiced pumpkin cupcakes with a delicious cinnamon cream cheese frosting. Perfect for a cosy night in!'
+                    },
+                    'p2': {
+                        id: 'p2',
+                        name: 'Classic Vanilla Box',
+                        price: 16.00,
+                        image: 'https://placehold.co/600x600/fce7f3/db2777?text=Classic+Vanilla',
+                        description: 'You can\'t beat a classic. A box of 6 fluffy vanilla cupcakes with sweet vanilla buttercream and pretty sprinkles.'
+                    },
+                    'p3': {
+                        id: 'p3',
+                        name: 'Chocolate Lover\'s Box',
+                        price: 18.00,
+                        image: 'https://placehold.co/600x600/FCE7F3/4A2C2A?text=Chocolate+Lovers',
+                        description: 'For the chocoholics! A box of 6 rich, moist chocolate cupcakes with a decadent chocolate fudge frosting.'
+                    },
+                    'p4': {
+                        id: 'p4',
+                        name: 'Lemon Drizzle Cupcakes',
+                        price: 17.00,
+                        image: 'https://placehold.co/600x600/FDE68A/713F12?text=Lemon+Drizzle',
+                        description: 'A box of 6 zesty lemon cupcakes, soaked in a lemon syrup and topped with a sharp lemon glaze icing. So refreshing!'
+                    },
+                    'p5': {
+                        id: 'p5',
+                        name: 'The Celebration Box',
+                        price: 24.00,
+                        image: 'https://placehold.co/600x600/fce7f3/db2777?text=Celebration+Box',
+                        description: 'A mixed box of 12 mini cupcakes! Includes Vanilla, Chocolate, and Red Velvet. Perfect for a party or just because.'
+                    },
+                    'p6': {
+                        id: 'p6',
+                        name: 'Red Velvet Cupcakes',
+                        price: 18.00,
+                        image: 'https://placehold.co/600x600/fce7f3/9F1239?text=Red+Velvet',
+                        description: 'A box of 6 striking red velvet cupcakes with my signature cream cheese frosting. A gorgeous and delicious treat.'
+                    }
+                },
+                
+                // Simulates the gallery database
+                galleryImages: [
+                    { src: 'https://placehold.co/800x800/fce7f3/db2777?text=Wedding+Cupcakes', alt: 'Wedding Cupcakes' },
+                    { src: 'https://placehold.co/800x600/fde68a/db2777?text=Birthday+Cake', alt: 'Custom Birthday Cake' },
+                    { src: 'https://placehold.co/800x800/fce7f3/db2777?text=Pink+Roses', alt: 'Floral Piped Cupcakes' },
+                    { src: 'https://placehold.co/800x600/fce7f3/db2777?text=Baby+Shower', alt: 'Baby Shower Theme' },
+                    { src: 'https://placehold.co/800x800/fde68a/db2777?text=Cookie+Sandwiches', alt: 'Cookie Sandwiches' },
+                    { src: 'https://placehold.co/800x600/fce7f3/db2777?text=Party+Time', alt: 'A large party order' }
+                ]
+            },
+
+            /**
+             * =========================================
+             * CTO NOTE: CORE APP INITIALIZATION
+             * =========================================
+             */
+            init: () => {
+                console.log("Initializing Blooming Bakes Simulation...");
+                app.addListeners();
+                app.renderShop();
+                app.renderGallery();
+                app.checkout.renderSummary(); // Ensure cart is correctly shown on load
+                app.navigate('home', true); // Go to home page on load
+                console.log('App Ready.');
+            },
+            
+            /**
+             * =========================================
+             * CTO NOTE: CORE SPA NAVIGATION
+             * =========================================
+             * This function simulates page navigation by
+             * toggling the 'active' class on our <section> pages.
+             */
+            navigate: (pageId, isInitialLoad = false) => {
+                app.state.activePage = pageId;
+                
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                const targetPage = document.getElementById(`page-${pageId}`);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                } else {
+                    console.error(`Navigation error: Page 'page-${pageId}' not found.`);
+                    document.getElementById('page-home').classList.add('active'); // Fallback
+                }
+                
+                // Update nav links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.navlink === pageId) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Close mobile nav if open
+                document.getElementById('header-content').classList.remove('mobile-nav-open');
+                
+                if (!isInitialLoad) {
+                    window.scrollTo(0, 0);
+                }
+            },
+
+            /**
+             * =========================================
+             * CTO NOTE: UTILITIES
+             * =========================================
+             */
+            utils: {
+                // CTO NOTE: Critical localization function.
+                formatCurrency: (amount) => {
+                    // Use the Intl.NumberFormat for proper UK currency formatting.
+                    return new Intl.NumberFormat('en-GB', {
+                        style: 'currency',
+                        currency: 'GBP'
+                    }).format(amount);
+                    // Fallback: return `£${amount.toFixed(2)}`;
+                }
+            },
+            
+            /**
+             * =========================================
+             * CTO NOTE: E-COMMERCE ENGINE (SHOP & PDP)
+             * =========================================
+             */
+             
+            // Renders all products on the "Shop Cupcakes" page
+            renderShop: () => {
+                const gridTarget = document.getElementById('product-grid-target');
+                if (!gridTarget) return;
+                
+                let html = '';
+                for (const productId in app.db.products) {
+                    const product = app.db.products[productId];
+                    html += `
+                        <div class="product-card">
+                            <a href="#" class="product-card-image-link" data-product-id="${product.id}">
+                                <div class="product-card-image">
+                                    <img src="${product.image}" alt="${product.name}">
+                                </div>
+                            </a>
+                            <div class="product-card-content">
+                                <a href="#" class="product-card-title-link" data-product-id="${product.id}">
+                                    <h4 class="product-card-title">${product.name}</h4>
+                                </a>
+                                <div class="product-card-price">${app.utils.formatCurrency(product.price)}</div>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-primary btn-full add-to-cart-btn" data-product-id="${product.id}">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                gridTarget.innerHTML = html;
+            },
+            
+            // Renders a single product on the "Product Detail Page"
+            renderPDP: (productId) => {
+                const product = app.db.products[productId];
+                if (!product) return;
+                
+                const pdpTarget = document.getElementById('pdp-content-target');
+                if (!pdpTarget) return;
+                
+                pdpTarget.innerHTML = `
+                    <div class="pdp-image-gallery">
+                        <div class="pdp-main-image">
+                            <img src="${product.image}" alt="${product.name}">
+                        </div>
+                    </div>
+                    <div class="pdp-details">
+                        <h1>${product.name}</h1>
+                        <div class="pdp-price">${app.utils.formatCurrency(product.price)}</div>
+                        <div class="pdp-description">
+                            <p>${product.description}</p>
+                        </div>
+                        <div class="pdp-actions">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Quantity</label>
+                                <div class="quantity-selector">
+                                    <button class="quantity-btn" data-action="decrease">-</button>
+                                    <input type="number" class="quantity-input" id="pdp-quantity-input" value="1" min="1">
+                                    <button class="quantity-btn" data-action="increase">+</button>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" id="pdp-add-to-cart-btn" data-product-id="${product.id}">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                app.navigate('pdp');
+            },
+            
+            // Renders the gallery grid
+            renderGallery: () => {
+                const gridTarget = document.getElementById('gallery-grid-target');
+                if (!gridTarget) return;
+                
+                let html = '';
+                app.db.galleryImages.forEach(image => {
+                    html += `
+                        <div class="gallery-item" data-lightbox-src="${image.src}">
+                            <img src="${image.src}" alt="${image.alt}">
+                            <div class="gallery-item-overlay">${image.alt}</div>
+                        </div>
+                    `;
+                });
+                gridTarget.innerHTML = html;
+            },
+
+            /**
+             * =========================================
+             * CTO NOTE: CART & CHECKOUT LOGIC
+             * =========================================
+             */
+            cart: {
+                // Adds an item to the app.state.cart
+                add: (productId, quantity) => {
+                    const product = app.db.products[productId];
+                    if (!product) return;
+                    
+                    quantity = parseInt(quantity, 10);
+                    if (isNaN(quantity) || quantity < 1) quantity = 1;
+                    
+                    const existingItem = app.state.cart.find(item => item.id === productId);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += quantity;
+                    } else {
+                        app.state.cart.push({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            quantity: quantity
+                        });
+                    }
+                    
+                    console.log('Cart Updated:', app.state.cart);
+                    app.cart.updateIcon();
+                    app.checkout.renderSummary();
+                    app.showToast(`${product.name} added to cart!`);
+                },
+                
+                // Removes an item from the cart
+                remove: (productId) => {
+                    app.state.cart = app.state.cart.filter(item => item.id !== productId);
+                    app.cart.updateIcon();
+                    app.checkout.renderSummary();
+                },
+                
+                // Updates the quantity of a cart item
+                updateQuantity: (productId, newQuantity) => {
+                    newQuantity = parseInt(newQuantity, 10);
+                    const cartItem = app.state.cart.find(item => item.id === productId);
+                    if (!cartItem) return;
+
+                    if (isNaN(newQuantity) || newQuantity < 1) {
+                        app.cart.remove(productId); // Remove if qty is 0 or invalid
+                    } else {
+                        cartItem.quantity = newQuantity;
+                    }
+                    
+                    app.cart.updateIcon();
+                    app.checkout.renderSummary();
+                },
+                
+                // Updates the little number on the cart icon
+                updateIcon: () => {
+                    const totalItems = app.state.cart.reduce((total, item) => total + item.quantity, 0);
+                    const cartCountEl = document.getElementById('cart-item-count');
+                    
+                    cartCountEl.textContent = totalItems;
+                    
+                    // Animate the counter
+                    cartCountEl.style.transform = 'scale(1.3)';
+                    setTimeout(() => {
+                        cartCountEl.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            },
+            
+            checkout: {
+                // Opens the checkout modal
+                open: () => {
+                    app.state.checkoutStep = 1;
+                    app.checkout.goToStep(1);
+                    document.getElementById('checkout-modal').classList.add('active');
+                },
+                
+                // Closes the checkout modal
+                close: () => {
+                    document.getElementById('checkout-modal').classList.remove('active');
+                },
+                
+                // Renders the cart items and totals in the modal
+                renderSummary: () => {
+                    const itemsContainer = document.getElementById('cart-items-container');
+                    const emptyMessage = document.getElementById('cart-empty-message');
+                    const summaryBox = document.getElementById('cart-summary-box');
+                    const nextBtn = document.getElementById('checkout-next-btn');
+                    
+                    if (app.state.cart.length === 0) {
+                        itemsContainer.innerHTML = '';
+                        emptyMessage.style.display = 'block';
+                        summaryBox.style.display = 'none';
+                        nextBtn.style.display = 'none';
+                    } else {
+                        emptyMessage.style.display = 'none';
+                        summaryBox.style.display = 'block';
+                        nextBtn.style.display = 'block';
+                        
+                        let itemsHtml = '';
+                        let subtotal = 0;
+                        
+                        app.state.cart.forEach(item => {
+                            const itemTotal = item.price * item.quantity;
+                            subtotal += itemTotal;
+                            
+                            itemsHtml += `
+                                <div class="cart-item">
+                                    <div class="cart-item-image">
+                                        <img src="${item.image}" alt="${item.name}">
+                                    </div>
+                                    <div class="cart-item-details">
+                                        <div class="cart-item-title">${item.name}</div>
+                                        <div class="cart-item-price">${app.utils.formatCurrency(item.price)}</div>
+                                        <div class="cart-item-actions">
+                                            <div class="quantity-selector" data-product-id="${item.id}">
+                                                <button class="quantity-btn" data-action="decrease">-</button>
+                                                <input type="number" class="quantity-input cart-quantity-input" value="${item.quantity}" min="1" data-product-id="${item.id}">
+                                                <button class="quantity-btn" data-action="increase">+</button>
+                                            </div>
+                                            <button class="btn-link text-small cart-item-remove-btn" data-product-id="${item.id}">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        itemsContainer.innerHTML = itemsHtml;
+                        document.getElementById('cart-subtotal').textContent = app.utils.formatCurrency(subtotal);
+                        document.getElementById('cart-total').textContent = app.utils.formatCurrency(subtotal);
+                    }
+                },
+                
+                // The state machine for the multi-step checkout
+                goToStep: (step) => {
+                    app.state.checkoutStep = step;
+                    
+                    document.querySelectorAll('.checkout-step').forEach(el => el.classList.remove('active'));
+                    document.querySelector(`.checkout-step[data-checkout-step="${step}"]`).classList.add('active');
+                    
+                    const modalTitle = document.getElementById('checkout-modal-title');
+                    const nextBtn = document.getElementById('checkout-next-btn');
+                    const prevBtn = document.getElementById('checkout-prev-btn');
+                    
+                    switch(step) {
+                        case 1:
+                            modalTitle.textContent = 'Your Cart';
+                            nextBtn.textContent = 'Proceed to Delivery';
+                            nextBtn.dataset.nextStep = '2';
+                            prevBtn.style.display = 'none';
+                            nextBtn.style.display = app.state.cart.length > 0 ? 'block' : 'none';
+                            break;
+                        case 2:
+                            modalTitle.textContent = 'Delivery Details';
+                            nextBtn.textContent = 'Continue to Payment';
+                            nextBtn.dataset.nextStep = '3';
+                            prevBtn.style.display = 'block';
+                            prevBtn.dataset.prevStep = '1';
+                            nextBtn.style.display = 'block';
+                            break;
+                        case 3:
+                            modalTitle.textContent = 'Payment Details';
+                            nextBtn.textContent = 'Place Your Order';
+                            nextBtn.dataset.nextStep = '4';
+                            prevBtn.style.display = 'block';
+                            prevBtn.dataset.prevStep = '2';
+                            nextBtn.style.display = 'block';
+                            break;
+                        case 4:
+                            modalTitle.textContent = 'Order Confirmed!';
+                            nextBtn.textContent = 'Close';
+                            nextBtn.dataset.nextStep = 'close';
+                            prevBtn.style.display = 'none';
+                            // Clear the cart
+                            app.state.cart = [];
+                            app.cart.updateIcon();
+                            break;
+                    }
+                }
+            },
+            
+            /**
+             * =========================================
+             * CTO NOTE: GALLERY LIGHTBOX LOGIC
+             * =========================================
+             */
+            lightbox: {
+                open: (src) => {
+                    document.getElementById('lightbox-image').src = src;
+                    document.getElementById('lightbox-modal').classList.add('active');
+                },
+                close: () => {
+                    document.getElementById('lightbox-modal').classList.remove('active');
+                    document.getElementById('lightbox-image').src = '';
+                }
+            },
+            
+            /**
+             * =========================================
+             * CTO NOTE: BESPOKE FORM LOGIC
+             * =========================================
+             */
+            submitBespokeForm: () => {
+                const name = document.getElementById('bespoke-name').value;
+                const email = document.getElementById('bespoke-email').value;
+                
+                if (!name || !email) {
+                    alert('Please fill in your name and email so I can get back to you!');
+                    return;
+                }
+                
+                // Hide form, show success
+                document.getElementById('bespoke-form').style.display = 'none';
+                document.getElementById('bespoke-success-message').style.display = 'block';
+            },
+
+            /**
+             * =========================================
+             * CTO NOTE: HELPER UTILITIES
+             * =========================================
+             */
+             
+            // Shows a "toast" notification
+            showToast: (message) => {
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 10);
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 400);
+                }, 3000);
+            },
+
+            /**
+             * =========================================
+             * CTO NOTE: MASTER EVENT LISTENER
+             * =========================================
+             * We use event delegation on the body for
+             * performance. This one listener handles
+             * all clicks for the entire application.
+             */
+            addListeners: () => {
+                document.body.addEventListener('click', (e) => {
+                    
+                    // --- Navigation ---
+                    const navLink = e.target.closest('[data-navlink]');
+                    if (navLink) {
+                        e.preventDefault();
+                        app.navigate(navLink.dataset.navlink);
+                    }
+                    
+                    // --- Mobile Nav Toggle ---
+                    const mobileToggle = e.target.closest('#mobile-menu-toggle');
+                    if (mobileToggle) {
+                        document.getElementById('header-content').classList.toggle('mobile-nav-open');
+                    }
+                    
+                    // --- Shop / PDP ---
+                    const productLink = e.target.closest('.product-card-image-link, .product-card-title-link');
+                    if (productLink) {
+                        e.preventDefault();
+                        app.renderPDP(productLink.dataset.productId);
+                    }
+                    
+                    const shopAtcBtn = e.target.closest('.add-to-cart-btn');
+                    if (shopAtcBtn) {
+                        e.preventDefault();
+                        app.cart.add(shopAtcBtn.dataset.productId, 1);
+                    }
+                    
+                    const pdpAtcBtn = e.target.closest('#pdp-add-to-cart-btn');
+                    if (pdpAtcBtn) {
+                        e.preventDefault();
+                        const quantity = document.getElementById('pdp-quantity-input').value;
+                        app.cart.add(pdpAtcBtn.dataset.productId, quantity);
+                    }
+                    
+                    // --- Quantity Buttons (PDP & Cart) ---
+                    const quantityBtn = e.target.closest('.quantity-btn');
+                    if (quantityBtn) {
+                        const selector = quantityBtn.closest('.quantity-selector');
+                        const input = selector.querySelector('.quantity-input');
+                        let currentValue = parseInt(input.value, 10);
+                        
+                        if (quantityBtn.dataset.action === 'increase') {
+                            currentValue++;
+                        } else if (quantityBtn.dataset.action === 'decrease') {
+                            currentValue = Math.max(1, currentValue - 1);
+                        }
+                        input.value = currentValue;
+                        
+                        if (input.classList.contains('cart-quantity-input')) {
+                            app.cart.updateQuantity(input.dataset.productId, currentValue);
+                        }
+                    }
+                    
+                    // --- Checkout Modal ---
+                    if (e.target.closest('#cart-icon-wrapper')) app.checkout.open();
+                    
+                    if (e.target.closest('#checkout-close-btn')) app.checkout.close();
+                    
+                    if (e.target.closest('#cart-continue-shopping-btn')) {
+                        app.checkout.close();
+                        app.navigate('shop');
+                    }
+                    
+                    const checkoutNext = e.target.closest('#checkout-next-btn');
+                    if (checkoutNext) {
+                        const nextStep = checkoutNext.dataset.nextStep;
+                        if (nextStep === 'close') {
+                            app.checkout.close();
+                        } else {
+                            app.checkout.goToStep(parseInt(nextStep, 10));
+                        }
+                    }
+                    
+                    if (e.target.closest('#checkout-prev-btn')) {
+                        app.checkout.goToStep(parseInt(e.target.closest('#checkout-prev-btn').dataset.prevStep, 10));
+                    }
+                    
+                    // --- Cart Item Actions ---
+                    const removeBtn = e.target.closest('.cart-item-remove-btn');
+                    if (removeBtn) {
+                        app.cart.remove(removeBtn.dataset.productId);
+                    }
+                    
+                    // --- Bespoke Form ---
+                    if (e.target.closest('#bespoke-submit-btn')) {
+                        app.submitBespokeForm();
+                    }
+                    
+                    // --- Gallery Lightbox ---
+                    const galleryItem = e.target.closest('.gallery-item');
+                    if (galleryItem && galleryItem.dataset.lightboxSrc) {
+                        app.lightbox.open(galleryItem.dataset.lightboxSrc);
+                    }
+                    
+                    if (e.target.closest('#lightbox-close-btn') || e.target.id === 'lightbox-modal') {
+                        app.lightbox.close();
+                    }
+                });
+                
+                // Handle cart quantity input changes (e.g., typing)
+                document.getElementById('cart-items-container').addEventListener('change', (e) => {
+                    const quantityInput = e.target.closest('.cart-quantity-input');
+                    if (quantityInput) {
+                        app.cart.updateQuantity(quantityInput.dataset.productId, quantityInput.value);
+                    }
+                });
+            }
+        };
+        
+        // Let's get baking!
+        app.init();
+    
+    });
+    </script>
+</body>
+</html>
